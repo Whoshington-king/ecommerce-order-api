@@ -8,6 +8,19 @@ const port = 3000;
 
 dotenv.config();
 app.use(express.json());
+app.get("orders", async (req, res) => {
+  try {
+    const searchOrder = await orderModel.find();
+    return res.status(200).json({
+      message: "Your order has been found",
+      data: searchOrder,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Error trying to find order. Error: ${error}`,
+    });
+  }
+});
 
 app.get("orders", async (req, res) => {
   try {
