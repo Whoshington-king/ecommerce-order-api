@@ -2,13 +2,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const orderModel = require("./order-model");
-const statusHttp = require("./status-http");
 
 const app = express();
 const port = 3000;
 
 dotenv.config();
 app.use(express.json());
+
+app.get("/order", async (req, res) => {
+  const searchOrder = await orderModel.find();
+  return res.status(200).json({
+    message: "Order found",
+    data: searchOrder,
+  });
+});
 
 app.post("/order", async (req, res) => {
   const data = req.body;
