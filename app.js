@@ -21,7 +21,6 @@ app.get("orders", async (req, res) => {
     });
   }
 });
-
 app.get("orders", async (req, res) => {
   try {
     const searchOrder = await orderModel.find();
