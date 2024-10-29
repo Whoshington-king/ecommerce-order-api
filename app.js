@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const orderModel = require("./order-model");
-const statusHttp = require("./status-http");
 
 const app = express();
 const port = 3000;
