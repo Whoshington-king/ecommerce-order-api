@@ -12,8 +12,8 @@ app.use(express.json());
 app.get("/order", async (req, res) => {
   try {
     const searchOrder = await orderModel.find();
-    return res.status(200).json({
-      message: "Your order has been found",
+    return res.status(400).json({
+      message: "Order not found",
       data: searchOrder,
     });
   } catch (error) {
@@ -23,6 +23,25 @@ app.get("/order", async (req, res) => {
   }
 });
 
+app.get("/order/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const OrderId = await orderModel.findById(id);
+    if (!OrderId) {
+      return res.status(400).json({
+        message: "Order not found",
+      });
+    }
+    return res.status(200).json({
+      message: "Your order has been returned",
+      data: OrderId,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `Something in the operation went wrong: ${error}`,
+    });
+  }
+});
 app.post("/order", async (req, res) => {
   const data = req.body;
   try {
@@ -38,7 +57,7 @@ app.post("/order", async (req, res) => {
   }
 });
 
-// Conectando com o MongoDB usando o mongoose
+// Conectando com o MongoDB us  ando o mongoose
 app.listen(port, () => {
   try {
     mongoose.connect(process.env.MONGO_URI);
