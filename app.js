@@ -12,10 +12,16 @@ app.use(express.json());
 app.get("/order", async (req, res) => {
   try {
     const searchOrder = await orderModel.find();
-    return res.status(400).json({
-      message: "Order not found",
-      data: searchOrder,
-    });
+    if (!searchOrder) {
+      res.status(400).json({
+        message: "Order not found",
+      });
+    } else {
+      return res.status(200).json({
+        message: "Order found successfuly",
+        data: searchOrder,
+      });
+    }
   } catch (error) {
     return res.status(500).json({
       message: `Error trying to find order. Error: ${error}`,
@@ -31,17 +37,19 @@ app.get("/order/:id", async (req, res) => {
       return res.status(400).json({
         message: "Order not found",
       });
+    } else {
+      return res.status(200).json({
+        message: "Your order has been returned",
+        data: OrderId,
+      });
     }
-    return res.status(200).json({
-      message: "Your order has been returned",
-      data: OrderId,
-    });
   } catch (error) {
     return res.status(500).json({
       message: `Something in the operation went wrong: ${error}`,
     });
   }
 });
+
 app.post("/order", async (req, res) => {
   const data = req.body;
   try {
