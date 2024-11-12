@@ -13,15 +13,15 @@ app.get("/order", async (req, res) => {
   try {
     const searchOrder = await orderModel.find();
     if (!searchOrder) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Order not found",
-      });
-    } else {
-      return res.status(200).json({
-        message: "Order found successfuly",
-        data: searchOrder,
+        data: [],
       });
     }
+    return res.status(200).json({
+      message: "Order found successfuly",
+      data: searchOrder,
+    });
   } catch (error) {
     return res.status(500).json({
       message: `Error trying to find order. Error: ${error}`,
@@ -36,13 +36,13 @@ app.get("/order/:id", async (req, res) => {
     if (!OrderId) {
       return res.status(400).json({
         message: "Order not found",
-      });
-    } else {
-      return res.status(200).json({
-        message: "Your order has been returned",
-        data: OrderId,
+        data: [],
       });
     }
+    return res.status(200).json({
+      message: "Your order has been returned",
+      data: OrderId,
+    });
   } catch (error) {
     return res.status(500).json({
       message: `Something in the operation went wrong: ${error}`,
